@@ -547,9 +547,10 @@ ${headerTitle}
 
             const modelCandidates = [
                 'gemini-3.8-flash-lite',  // 트래픽 부담이 적어 과부하가 거의 없는 경량 모델 (우선 시도)
+                'gemini-3-flash-lite',    // 대체 경량 모델
+                'gemini-flash-latest',    // 최신 Flash 별칭
                 'gemini-3.8-flash',       // 기본 표준 모델
-                'gemini-flash-latest',     // 최신 Flash 별칭
-                'gemini-3-flash-preview'   // 프리뷰 엔드포인트
+                'gemini-3-flash-preview'  // 프리뷰 엔드포인트
             ];
 
             try {
