@@ -1,444 +1,653 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <title>청년부 Daily Q.T 정리기</title>
-  <style>
-    :root {
-      --bg-dark: #121212;
-      --card-dark: #1e1e1e;
-      --kakao-bubble: #262626;
-      --accent: #facc15;
-      --text-main: #f3f4f6;
-      --text-sub: #9ca3af;
-      --border: #333333;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", sans-serif;
-      background-color: var(--bg-dark);
-      color: var(--text-main);
-      line-height: 1.5;
-      padding: 16px;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 480px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      padding-bottom: 32px;
-    }
-
-    header {
-      text-align: center;
-      padding: 8px 0;
-    }
-
-    header h1 {
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: #ffffff;
-      letter-spacing: -0.02em;
-    }
-
-    header p {
-      font-size: 0.85rem;
-      color: var(--text-sub);
-      margin-top: 4px;
-    }
-
-    .card {
-      background-color: var(--card-dark);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 16px;
-    }
-
-    .label {
-      display: block;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--text-sub);
-      margin-bottom: 8px;
-    }
-
-    .title-input {
-      width: 100%;
-      background-color: #141414;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px 14px;
-      color: #ffffff;
-      font-size: 0.95rem;
-      outline: none;
-    }
-
-    .title-input:focus {
-      border-color: var(--accent);
-    }
-
-    .upload-box {
-      border: 2px dashed #444;
-      border-radius: 14px;
-      padding: 28px 16px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      background-color: #171717;
-    }
-
-    .upload-box:active {
-      background-color: #222;
-      border-color: var(--accent);
-    }
-
-    .upload-icon {
-      font-size: 2rem;
-      margin-bottom: 8px;
-      display: block;
-    }
-
-    .upload-text {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #e5e7eb;
-    }
-
-    .upload-sub {
-      font-size: 0.8rem;
-      color: var(--text-sub);
-      margin-top: 4px;
-    }
-
-    #fileInput {
-      display: none;
-    }
-
-    .preview-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-top: 12px;
-    }
-
-    .preview-item {
-      position: relative;
-      aspect-ratio: 1;
-      border-radius: 10px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-    }
-
-    .preview-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .remove-btn {
-      position: absolute;
-      top: 4px;
-      right: 4px;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: rgba(0, 0, 0, 0.75);
-      color: #fff;
-      border: none;
-      font-size: 14px;
-      line-height: 24px;
-      text-align: center;
-      cursor: pointer;
-    }
-
-    .btn-primary {
-      width: 100%;
-      background-color: var(--accent);
-      color: #111827;
-      border: none;
-      border-radius: 12px;
-      padding: 15px;
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: opacity 0.2s;
-    }
-
-    .btn-primary:disabled {
-      opacity: 0.45;
-      cursor: not-allowed;
-    }
-
-    .status-text {
-      text-align: center;
-      font-size: 0.9rem;
-      color: var(--accent);
-      padding: 8px 0;
-      display: none;
-    }
-
-    .result-section {
-      display: none;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .kakao-bubble {
-      background-color: var(--kakao-bubble);
-      border-radius: 18px;
-      padding: 18px;
-      color: #f3f4f6;
-      font-size: 0.95rem;
-      line-height: 1.65;
-      white-space: pre-wrap;
-      word-break: break-word;
-      outline: none;
-      border: 1px solid #333;
-    }
-
-    .btn-copy {
-      width: 100%;
-      background-color: #3b82f6;
-      color: #ffffff;
-      border: none;
-      border-radius: 12px;
-      padding: 14px;
-      font-size: 0.95rem;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .btn-copy:active {
-      opacity: 0.85;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>청년부 Daily Q.T 정리 비서</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Pretendard Font -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <style>
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        /* 카카오톡 다크모드 스크롤바 및 텍스트영역 스타일 */
+        textarea.kakao-editable {
+            resize: none;
+            overflow: hidden;
+            background: transparent;
+            outline: none;
+            border: 1px solid transparent;
+            transition: border-color 0.2s, background-color 0.2s;
+        }
+        textarea.kakao-editable:focus {
+            border-color: rgba(255, 255, 255, 0.25);
+            background-color: rgba(255, 255, 255, 0.04);
+        }
+    </style>
 </head>
-<body>
-  <div class="container">
-    <header>
-      <h1>📖 청년부 Daily Q.T 정리기</h1>
-      <p>말씀·묵상 사진을 올리면 카톡 양식으로 정리해 드립니다</p>
-    </header>
+<body class="bg-slate-100 min-h-screen text-slate-800 py-4 sm:py-6 px-3 sm:px-6 flex flex-col items-center">
 
-    <div class="card">
-      <label class="label" for="qtTitle">상단 제목 (터치하여 수정 가능)</label>
-      <input type="text" id="qtTitle" class="title-input" />
+    <!-- 메인 컨테이너 -->
+    <div class="w-full max-w-2xl bg-white rounded-3xl shadow-xl border border-slate-200/80 overflow-hidden flex flex-col">
+        
+        <!-- 상단 헤더 (API 설정 버튼 제거됨) -->
+        <header class="bg-slate-900 text-white px-5 sm:px-6 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-amber-400/20 border border-amber-400/40 flex items-center justify-center text-xl shrink-0">
+                    ⛪
+                </div>
+                <div>
+                    <h1 class="text-lg sm:text-xl font-bold tracking-tight flex items-center gap-2">
+                        청년부 Daily Q.T 정리 비서
+                    </h1>
+                    <p class="text-xs text-slate-400 mt-0.5">큐티 책·말씀 사진을 올리면 카카오톡 나눔 양식으로 자동 정리해 드립니다</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- 본문 영역 -->
+        <main class="p-4 sm:p-6 flex flex-col gap-6">
+
+            <!-- 1. 날짜 및 부서명 설정 -->
+            <section class="flex flex-col gap-2">
+                <div class="flex items-center justify-between">
+                    <label for="qtTitleInput" class="text-sm font-bold text-slate-700 flex items-center gap-1.5">
+                        <span class="w-5 h-5 rounded-full bg-slate-900 text-white text-xs flex items-center justify-center">1</span>
+                        날짜 및 부서명 헤더 설정
+                    </label>
+                    <button id="resetDateBtn" type="button" class="text-xs text-indigo-600 hover:text-indigo-800 font-medium transition">
+                        오늘 날짜로 초기화
+                    </button>
+                </div>
+                <div class="relative">
+                    <input 
+                        type="text" 
+                        id="qtTitleInput" 
+                        class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-600/20 outline-none text-sm font-medium text-slate-800 transition bg-slate-50/50 focus:bg-white"
+                        placeholder="예: 2026 청년부 Daily Q.T_10월 30일(금)"
+                    >
+                </div>
+                <p class="text-xs text-slate-400">카카오톡 말풍선 첫 줄에 들어갈 제목입니다. 자유롭게 수정하실 수 있습니다.</p>
+            </section>
+
+            <!-- 2. 성경 말씀 / 큐티 사진 업로드 -->
+            <section class="flex flex-col gap-2">
+                <div class="flex items-center justify-between">
+                    <label class="text-sm font-bold text-slate-700 flex items-center gap-1.5">
+                        <span class="w-5 h-5 rounded-full bg-slate-900 text-white text-xs flex items-center justify-center">2</span>
+                        성경 말씀 / 큐티 사진 업로드
+                    </label>
+                    <div class="flex items-center gap-2">
+                        <span id="imageCountBadge" class="text-xs font-semibold text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-full hidden">0장 선택됨</span>
+                        <button id="clearAllImagesBtn" type="button" class="text-xs text-rose-500 hover:text-rose-700 font-medium hidden transition">
+                            전체 삭제
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 드래그 앤 드롭 영역 -->
+                <div 
+                    id="dropZone" 
+                    class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-2xl p-6 text-center cursor-pointer transition bg-slate-50/70 hover:bg-indigo-50/30 relative flex flex-col items-center justify-center min-h-[160px]"
+                >
+                    <input type="file" id="fileInput" accept="image/*" multiple class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10">
+                    
+                    <!-- 업로드 전 안내 화면 -->
+                    <div id="uploadPlaceholder" class="flex flex-col items-center gap-2 pointer-events-none">
+                        <div class="w-12 h-12 rounded-2xl bg-indigo-100/80 text-indigo-600 flex items-center justify-center text-2xl shadow-sm">
+                            📷
+                        </div>
+                        <div class="text-sm font-semibold text-slate-700 mt-1">
+                            클릭하거나 사진을 이곳에 끌어다 놓으세요
+                        </div>
+                        <div class="text-xs text-slate-400">
+                            큐티 책 본문, 해설, 기도문 등 여러 장을 한 번에 올릴 수 있습니다
+                        </div>
+                    </div>
+
+                    <!-- 업로드된 이미지 미리보기 그리드 -->
+                    <div id="previewGridContainer" class="hidden w-full z-20 flex flex-col gap-3">
+                        <div id="previewGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-3 w-full"></div>
+                        <button id="addMoreImagesBtn" type="button" class="w-full py-2.5 border border-dashed border-slate-300 hover:border-indigo-500 rounded-xl text-xs font-semibold text-slate-600 hover:text-indigo-600 bg-white/80 transition flex items-center justify-center gap-1">
+                            <span>＋ 사진 추가하기</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 분석 실행 버튼 -->
+            <button 
+                id="analyzeBtn" 
+                disabled 
+                class="w-full bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold py-4 px-5 rounded-2xl shadow-lg shadow-indigo-600/20 disabled:shadow-none transition flex items-center justify-center gap-2 text-base"
+            >
+                <span>✨ 말씀 나눔 자동 정리하기</span>
+            </button>
+
+            <!-- 로딩 상태 표시 -->
+            <div id="loadingIndicator" class="hidden bg-slate-900 text-white rounded-2xl p-6 flex flex-col items-center justify-center gap-3 shadow-inner">
+                <div class="w-9 h-9 border-4 border-amber-400 border-t-transparent rounded-full animate-spin"></div>
+                <div class="text-center">
+                    <p class="text-sm font-semibold text-slate-100">Gemini가 사진 속 말씀과 묵상 내용을 읽고 있습니다...</p>
+                    <p class="text-xs text-slate-400 mt-1">본문 구절 추출 및 두 문단 나눔과 기도제목을 작성 중입니다</p>
+                </div>
+            </div>
+
+            <!-- 3. 카카오톡 다크모드 결과 및 복사 영역 -->
+            <section id="resultSection" class="hidden flex flex-col gap-3 pt-2 border-t border-slate-100">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <label class="text-sm font-bold text-slate-700 flex items-center gap-1.5">
+                        <span class="w-5 h-5 rounded-full bg-slate-900 text-white text-xs flex items-center justify-center">3</span>
+                        카카오톡 나눔 미리보기 & 직접 수정
+                    </label>
+                    <span class="text-xs text-slate-400">말풍선 안의 글을 터치하면 직접 수정할 수 있습니다</span>
+                </div>
+
+                <!-- 카카오톡 다크모드 채팅방 UI 프레임 -->
+                <div class="bg-[#181818] rounded-3xl p-4 sm:p-5 shadow-xl border border-slate-800 text-slate-100">
+                    
+                    <!-- 채팅방 상단 바 느낌 -->
+                    <div class="flex items-center justify-between pb-3 mb-4 border-b border-white/10 text-xs text-slate-300">
+                        <div class="flex items-center gap-2 font-semibold">
+                            <span>←</span>
+                            <span>🏴 💒 2026년 남성교회 청년부</span>
+                            <span class="text-slate-500 font-normal">124</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-slate-400">
+                            <span>🔍</span>
+                            <span>☰</span>
+                        </div>
+                    </div>
+
+                    <!-- 프로필 + 메시지 영역 -->
+                    <div class="flex items-start gap-2.5">
+                        <!-- 프로필 아이콘 -->
+                        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-100 to-amber-300 text-slate-800 flex items-center justify-center font-bold text-xs shrink-0 shadow">
+                            QT
+                        </div>
+
+                        <div class="flex-1 min-w-0 flex flex-col gap-2">
+                            <!-- 보낸 사람 이름 -->
+                            <span class="text-xs text-slate-300 font-medium">청년부 지체</span>
+
+                            <!-- 업로드한 사진 콜라주 미리보기 (카카오톡 묶음사진 느낌) -->
+                            <div id="kakaoPhotoCollage" class="grid grid-cols-2 gap-1 rounded-2xl overflow-hidden max-w-xs border border-white/10 bg-[#202020]">
+                            </div>
+
+                            <!-- 카카오톡 텍스트 말풍선 + 읽음 수/시간 -->
+                            <div class="flex items-end gap-1.5">
+                                <div class="bg-[#262626] text-[#f1f2f4] rounded-2xl rounded-tl-md p-4 shadow-md w-full max-w-lg border border-white/5">
+                                    <textarea 
+                                        id="resultTextarea" 
+                                        rows="14"
+                                        class="kakao-editable w-full text-[14.5px] leading-[1.65] text-[#f1f2f4] font-normal rounded-lg p-1 -m-1"
+                                        spellcheck="false"
+                                    ></textarea>
+                                </div>
+                                <div class="flex flex-col text-[10px] leading-tight shrink-0 pb-0.5">
+                                    <span class="text-amber-400 font-semibold">18</span>
+                                    <span id="chatTimeText" class="text-slate-400">오후 12:24</span>
+                                </div>
+                            </div>
+
+                            <!-- 공감 하트 뱃지 -->
+                            <div class="flex items-center gap-1.5 mt-0.5">
+                                <div class="bg-[#262626] border border-white/10 rounded-full px-2.5 py-1 flex items-center gap-1 text-xs text-slate-200">
+                                    <span>❤️</span>
+                                    <span class="font-semibold text-[11px]">124</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- 복사 및 재작성 액션 버튼 -->
+                <div class="flex flex-col sm:flex-row gap-2.5 mt-1">
+                    <button 
+                        id="copyBtn" 
+                        type="button" 
+                        class="flex-1 bg-[#FEE500] hover:bg-[#FDD800] active:scale-[0.99] text-slate-900 font-bold py-3.5 px-5 rounded-2xl shadow-md transition flex items-center justify-center gap-2 text-sm"
+                    >
+                        <span>📋 카카오톡용 텍스트 복사하기</span>
+                    </button>
+                    <button 
+                        id="regenerateBtn" 
+                        type="button" 
+                        class="sm:w-auto bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-3.5 px-5 rounded-2xl transition flex items-center justify-center gap-1.5 text-sm"
+                    >
+                        <span>🔄 다시 작성</span>
+                    </button>
+                </div>
+            </section>
+
+        </main>
     </div>
 
-    <div class="card">
-      <label class="label">큐티 사진 선택 (여러 장 가능)</label>
-      <div class="upload-box" id="uploadBox">
-        <span class="upload-icon">📸</span>
-        <div class="upload-text">이곳을 눌러 사진 선택 또는 촬영</div>
-        <div class="upload-sub">본문, 해설 페이지 등을 함께 올려주세요</div>
-      </div>
-      <input type="file" id="fileInput" accept="image/*" multiple />
-      <div class="preview-grid" id="previewGrid"></div>
+    <!-- 토스트 알림창 -->
+    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-xs sm:text-sm font-medium px-5 py-3 rounded-2xl shadow-2xl border border-slate-700 transition-all duration-300 opacity-0 pointer-events-none z-50 flex items-center gap-2">
+        <span id="toastIcon">✅</span>
+        <span id="toastMessage">클립보드에 복사되었습니다!</span>
     </div>
 
-    <button id="analyzeBtn" class="btn-primary" disabled>✨ 카톡 양식으로 정리하기</button>
-    <div id="statusText" class="status-text">사진 속 말씀을 읽고 정리하는 중입니다...</div>
+    <script>
+        // 고정 API 키 설정
+        const FIXED_API_KEY = "AQ.Ab8RN6I9_LTOfzeJhKGzJgd9xUjXiYan7XVxzGHb0qe4CME6yA";
 
-    <div id="resultSection" class="result-section">
-      <label class="label">정리 결과 (내용을 터치해 직접 수정할 수 있습니다)</label>
-      <div id="resultBubble" class="kakao-bubble" contenteditable="true"></div>
-      <button id="copyBtn" class="btn-copy">📋 클립보드에 복사하기</button>
-    </div>
-  </div>
+        // DOM 요소 참조
+        const qtTitleInput = document.getElementById('qtTitleInput');
+        const resetDateBtn = document.getElementById('resetDateBtn');
+        const fileInput = document.getElementById('fileInput');
+        const dropZone = document.getElementById('dropZone');
+        const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+        const previewGridContainer = document.getElementById('previewGridContainer');
+        const previewGrid = document.getElementById('previewGrid');
+        const addMoreImagesBtn = document.getElementById('addMoreImagesBtn');
+        const imageCountBadge = document.getElementById('imageCountBadge');
+        const clearAllImagesBtn = document.getElementById('clearAllImagesBtn');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const resultSection = document.getElementById('resultSection');
+        const resultTextarea = document.getElementById('resultTextarea');
+        const kakaoPhotoCollage = document.getElementById('kakaoPhotoCollage');
+        const chatTimeText = document.getElementById('chatTimeText');
+        const copyBtn = document.getElementById('copyBtn');
+        const regenerateBtn = document.getElementById('regenerateBtn');
+        const toast = document.getElementById('toast');
 
-  <script>
-    const EMBEDDED_API_KEY = "AQ.Ab8RN6I9_LTOfzeJhKGzJgd9xUjXiYan7XVxzGHb0qe4CME6yA";
+        // 업로드된 이미지 배열 [{ id, dataUrl, base64, mimeType, name }]
+        let uploadedImages = [];
 
-    const qtTitleInput = document.getElementById("qtTitle");
-    const uploadBox = document.getElementById("uploadBox");
-    const fileInput = document.getElementById("fileInput");
-    const previewGrid = document.getElementById("previewGrid");
-    const analyzeBtn = document.getElementById("analyzeBtn");
-    const statusText = document.getElementById("statusText");
-    const resultSection = document.getElementById("resultSection");
-    const resultBubble = document.getElementById("resultBubble");
-    const copyBtn = document.getElementById("copyBtn");
+        // 1. 오늘 날짜 포맷 생성 ('2026 청년부 Daily Q.T_10월 30일(금)')
+        function getFormattedTodayTitle() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth() + 1;
+            const date = now.getDate();
+            const days = ['일', '월', '화', '수', '목', '금', '토'];
+            const dayName = days[now.getDay()];
+            return `${year} 청년부 Daily Q.T_${month}월 ${date}일(${dayName})`;
+        }
 
-    let uploadedImages = [];
+        function getFormattedCurrentTime() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const ampm = hours >= 12 ? '오후' : '오전';
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+            return `${ampm} ${hours}:${minutes}`;
+        }
 
-    function setTodayTitle() {
-      const now = new Date();
-      const year = now.getFullYear();
-      const month = now.getMonth() + 1;
-      const date = now.getDate();
-      const days = ["일", "월", "화", "수", "목", "금", "토"];
-      const dayName = days[now.getDay()];
-      qtTitleInput.value = `${year} 청년부 Daily Q.T_${month}월 ${date}일(${dayName})`;
-    }
-    setTodayTitle();
+        // 초기 날짜 세팅
+        qtTitleInput.value = getFormattedTodayTitle();
+        chatTimeText.textContent = getFormattedCurrentTime();
 
-    uploadBox.addEventListener("click", () => fileInput.click());
+        resetDateBtn.addEventListener('click', () => {
+            qtTitleInput.value = getFormattedTodayTitle();
+            showToast('오늘 날짜로 초기화되었습니다.');
+        });
 
-    fileInput.addEventListener("change", async (e) => {
-      const files = Array.from(e.target.files);
-      if (!files.length) return;
-      for (const file of files) {
-        const resized = await resizeImage(file, 1280, 0.85);
-        uploadedImages.push(resized);
-      }
-      fileInput.value = "";
-      renderPreviews();
-    });
+        // 텍스트영역 높이 자동 조절
+        function autoResizeTextarea() {
+            resultTextarea.style.height = 'auto';
+            resultTextarea.style.height = (resultTextarea.scrollHeight + 4) + 'px';
+        }
+        resultTextarea.addEventListener('input', autoResizeTextarea);
 
-    function renderPreviews() {
-      previewGrid.innerHTML = "";
-      uploadedImages.forEach((imgData, idx) => {
-        const div = document.createElement("div");
-        div.className = "preview-item";
-        div.innerHTML = `
-          <img src="${imgData.dataUrl}" alt="preview" />
-          <button class="remove-btn" onclick="removeImage(${idx})">×</button>
-        `;
-        previewGrid.appendChild(div);
-      });
-      analyzeBtn.disabled = uploadedImages.length === 0;
-    }
-
-    window.removeImage = function (index) {
-      uploadedImages.splice(index, 1);
-      renderPreviews();
-    };
-
-    function resizeImage(file, maxSize, quality) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const img = new Image();
-          img.onload = () => {
-            let width = img.width;
-            let height = img.height;
-            if (width > height && width > maxSize) {
-              height = Math.round((height * maxSize) / width);
-              width = maxSize;
-            } else if (height > maxSize) {
-              width = Math.round((width * maxSize) / height);
-              height = maxSize;
+        // 2. 이미지 파일 처리 (다중 업로드 지원)
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files && e.target.files.length > 0) {
+                handleFiles(Array.from(e.target.files));
+                fileInput.value = ''; // 동일 파일 재선택 허용
             }
-            const canvas = document.createElement("canvas");
-            canvas.width = width;
-            canvas.height = height;
-            const ctx = canvas.getContext("2d");
-            ctx.drawImage(img, 0, 0, width, height);
-            const dataUrl = canvas.toDataURL("image/jpeg", quality);
-            const base64 = dataUrl.split(",")[1];
-            resolve({ dataUrl, base64, mimeType: "image/jpeg" });
-          };
-          img.onerror = reject;
-          img.src = e.target.result;
-        };
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      });
-    }
+        });
 
-    analyzeBtn.addEventListener("click", async () => {
-      if (!uploadedImages.length) return;
+        addMoreImagesBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            fileInput.click();
+        });
 
-      analyzeBtn.disabled = true;
-      statusText.style.display = "block";
-      resultSection.style.display = "none";
+        // 드래그 앤 드롭 이벤트
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('border-indigo-500', 'bg-indigo-50/50');
+        });
 
-      const titleText = qtTitleInput.value.trim();
-      const prompt = `업로드된 성경 말씀 및 큐티(Q.T) 사진의 텍스트를 읽고, 아래 카카오톡 공유 양식에 맞춰 정확하게 정리해 주세요. 마크다운 기호(** 등) 없이 순수 텍스트로만 작성하세요.
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('border-indigo-500', 'bg-indigo-50/50');
+        });
 
-${titleText}
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('border-indigo-500', 'bg-indigo-50/50');
+            if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                const imageFiles = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+                if (imageFiles.length > 0) {
+                    handleFiles(imageFiles);
+                } else {
+                    showToast('이미지 파일만 업로드할 수 있습니다.', 'error');
+                }
+            }
+        });
+
+        // 클립보드 이미지 붙여넣기(Ctrl+V) 지원
+        window.addEventListener('paste', (e) => {
+            if (document.activeElement === qtTitleInput || document.activeElement === resultTextarea) return;
+            const items = e.clipboardData?.items;
+            if (!items) return;
+            const imageFiles = [];
+            for (const item of items) {
+                if (item.type.startsWith('image/')) {
+                    const file = item.getAsFile();
+                    if (file) imageFiles.push(file);
+                }
+            }
+            if (imageFiles.length > 0) {
+                handleFiles(imageFiles);
+                showToast(`클립보드에서 사진 ${imageFiles.length}장을 불러왔습니다.`);
+            }
+        });
+
+        // 모바일 빠른 전송을 위해 최대 960px JPEG(품질 0.75)로 압축 및 정규화
+        function compressAndNormalizeImage(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onerror = () => reject(new Error('파일을 읽는 중 오류가 발생했습니다.'));
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onerror = () => reject(new Error('이미지 로드에 실패했습니다.'));
+                    img.onload = () => {
+                        const MAX_DIM = 960;
+                        let width = img.width;
+                        let height = img.height;
+
+                        if (width > MAX_DIM || height > MAX_DIM) {
+                            if (width >= height) {
+                                height = Math.round((height * MAX_DIM) / width);
+                                width = MAX_DIM;
+                            } else {
+                                width = Math.round((width * MAX_DIM) / height);
+                                height = MAX_DIM;
+                            }
+                        }
+
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.fillStyle = '#FFFFFF';
+                        ctx.fillRect(0, 0, width, height);
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        const jpegDataUrl = canvas.toDataURL('image/jpeg', 0.75);
+                        const cleanBase64 = jpegDataUrl.replace(/^data:image\/jpeg;base64,/, '');
+
+                        resolve({
+                            id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now() + Math.random()),
+                            dataUrl: jpegDataUrl,
+                            base64: cleanBase64,
+                            mimeType: 'image/jpeg',
+                            name: file.name
+                        });
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function handleFiles(files) {
+            const validFiles = files.filter(file => file.type.startsWith('image/'));
+            if (validFiles.length === 0) return;
+
+            for (const file of validFiles) {
+                try {
+                    const normalizedImg = await compressAndNormalizeImage(file);
+                    uploadedImages.push(normalizedImg);
+                    renderImagePreviews();
+                } catch (err) {
+                    showToast('일부 이미지를 처리하지 못했습니다.', 'error');
+                }
+            }
+        }
+
+        function renderImagePreviews() {
+            previewGrid.innerHTML = '';
+            kakaoPhotoCollage.innerHTML = '';
+
+            if (uploadedImages.length === 0) {
+                uploadPlaceholder.classList.remove('hidden');
+                previewGridContainer.classList.add('hidden');
+                imageCountBadge.classList.add('hidden');
+                clearAllImagesBtn.classList.add('hidden');
+                fileInput.classList.remove('hidden');
+                analyzeBtn.disabled = true;
+                return;
+            }
+
+            uploadPlaceholder.classList.add('hidden');
+            previewGridContainer.classList.remove('hidden');
+            imageCountBadge.textContent = `${uploadedImages.length}장 선택됨`;
+            imageCountBadge.classList.remove('hidden');
+            clearAllImagesBtn.classList.remove('hidden');
+            fileInput.classList.add('hidden');
+            analyzeBtn.disabled = false;
+
+            uploadedImages.forEach((imgObj, idx) => {
+                // 상단 프리뷰 카드
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'relative group rounded-xl overflow-hidden border border-slate-200 bg-white aspect-[4/3] shadow-sm';
+                itemDiv.innerHTML = `
+                    <img src="${imgObj.dataUrl}" alt="큐티 사진 ${idx + 1}" class="w-full h-full object-cover">
+                    <div class="absolute top-1.5 left-1.5 bg-slate-900/75 text-white text-[10px] font-bold px-2 py-0.5 rounded-md">
+                        #${idx + 1}
+                    </div>
+                    <button type="button" data-id="${imgObj.id}" class="remove-single-btn absolute top-1.5 right-1.5 bg-rose-600/90 hover:bg-rose-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs shadow transition">
+                        &times;
+                    </button>
+                `;
+                previewGrid.appendChild(itemDiv);
+
+                // 카카오톡 말풍선 위 콜라주 미리보기
+                const collageImg = document.createElement('img');
+                collageImg.src = imgObj.dataUrl;
+                collageImg.alt = `첨부 사진 ${idx + 1}`;
+                collageImg.className = uploadedImages.length === 1 
+                    ? 'col-span-2 w-full max-h-52 object-cover' 
+                    : 'w-full h-28 object-cover';
+                kakaoPhotoCollage.appendChild(collageImg);
+            });
+
+            // 개별 삭제 이벤트 바인딩
+            document.querySelectorAll('.remove-single-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const targetId = btn.getAttribute('data-id');
+                    uploadedImages = uploadedImages.filter(item => item.id !== targetId);
+                    renderImagePreviews();
+                });
+            });
+        }
+
+        clearAllImagesBtn.addEventListener('click', () => {
+            uploadedImages = [];
+            renderImagePreviews();
+            resultSection.classList.add('hidden');
+        });
+
+        // 3. 고정된 Gemini API 키로 호출하여 카카오톡 양식으로 정리
+        async function analyzeAndFormatQT() {
+            if (uploadedImages.length === 0) {
+                showToast('먼저 성경 말씀이나 큐티 사진을 업로드해주세요.', 'error');
+                return;
+            }
+
+            const headerTitle = qtTitleInput.value.trim() || getFormattedTodayTitle();
+
+            analyzeBtn.disabled = true;
+            loadingIndicator.classList.remove('hidden');
+            resultSection.classList.add('hidden');
+
+            const prompt = `당신은 교회 청년부 매일 큐티(Q.T) 나눔 메시지를 작성하는 신실하고 따뜻한 도우미입니다.
+사용자가 업로드한 ${uploadedImages.length}장의 성경 말씀 및 큐티 책 해설/묵상 사진들을 모두 면밀히 읽고, 아래의 카카오톡 나눔 양식과 정확히 동일한 구조로 정리해주세요.
+
+[작성 규칙]
+1. 첫 줄에는 반드시 "${headerTitle}"를 그대로 적습니다.
+2. [📖 오늘의 말씀] 아래에는 사진에서 확인되는 성경 본문 장/절(예: 아가 5:1-16)만 깔끔하게 적고, 아래에 전체구절 중 나누고 싶은 인상적인 구절을 한개 또는 두개 적습니다.
+3. [💌 오늘의 나눔] 아래에는 사진 속 성경 본문과 묵상 해설/질문을 바탕으로, 청년의 시선에서 진솔하게 삶을 돌아보고 주님께 나아가는 고백을 담은 1~3문단(문단 사이 빈 줄 1개) 분량의 나눔을 자연스럽고 은혜롭게 작성합니다. ('~봅니다.', '~원합니다.', '~소망합니다.' 등의 정중하고 따뜻한 어미 사용)
+4. [🙏 기도제목] 아래에는 한 줄을 띄운 뒤, 말씀에 기반한 기도제목 2~3가지를 '1. ... ~하도록', '2. ... ~하도록' 형태로 두개에서 세개 정도를 작성합니다.
+5. 마크다운 기호(\`**\`, \`\`\` 등)나 불필요한 인사말을 절대 넣지 말고 오직 카카오톡에 바로 붙여넣을 순수 텍스트만 출력하세요.
+
+[정확한 출력 양식 예시]
+${headerTitle}
 
 [📖 오늘의 말씀]
-(사진에서 확인되는 성경 본문 장/절 표기, 예: 아가 5:1-16)
+역대상 28:11-21
+
+“여호와 하나님 나의 하나님이 너와 함께 계시사 네게서 떠나지 아니하시고 너를 버리지 아니하시리라” (20절 중)
+
 
 [💌 오늘의 나눔]
-(본문과 해설을 바탕으로 삶을 돌아보는 묵상 1문단)
+다윗은 하나님께서 영감으로 알려 주신 성전 설계도를 솔로몬에게 전하며, 하나님께서 함께하시니 담대히 행하라고 격려합니다.
 
-(주님께 나아가는 결단과 소망을 담은 묵상 1문단)
+떠나지 않고 함께하신다는 말씀이 참 든든합니다. 우리가 감당해야 할 일보다 하나님이 더 크시고, 우리의 부족함보다 하나님의 신실하심이 더 크시기 때문입니다. 
+우리의 능력과 준비가 충분한지 염려하기보다, 함께하시는 하나님을 신뢰하며 오늘도 담대히 나아가기를 소망합니다.
 
 [🙏 기도제목]
 
-1. (~하도록 형태로 끝나는 기도제목 첫 번째)
-2. (~하도록 형태로 끝나는 기도제목 두 번째)`;
+1. 모든 것을 예비하시는 하나님의 인도하심을 신뢰할 수 있도록
+2. 우리와 함께하시는 하나님, 임마누엘의 은혜를 기억하며 오늘도 강하고 담대하게 나아갈 수 있도록`;
 
-      const parts = [
-        { text: prompt },
-        ...uploadedImages.map((img) => ({
-          inline_data: {
-            mime_type: img.mimeType,
-            data: img.base64
-          }
-        }))
-      ];
+            const imageParts = uploadedImages.map(img => ({
+                inline_data: {
+                    mime_type: "image/jpeg",
+                    data: img.base64
+                }
+            }));
 
-      try {
-        // 최신 모델 gemini-3.8-flash로 변경 완료
-        const response = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${encodeURIComponent(EMBEDDED_API_KEY)}`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              contents: [{ parts }]
-            })
-          }
-        );
+            const payload = {
+                contents: [
+                    {
+                        role: "user",
+                        parts: [
+                            { text: prompt },
+                            ...imageParts
+                        ]
+                    }
+                ],
+                generationConfig: {
+                    thinkingConfig: { thinkingBudget: 0 }
+                }
+            };
 
-        const data = await response.json();
+            const modelCandidates = ['gemini-3-flash-preview', 'gemini-2.5-flash'];
 
-        if (!response.ok) {
-          throw new Error(data.error?.message || `HTTP ${response.status}`);
+            try {
+                let response = null;
+                let lastErrorMsg = '';
+
+                for (const modelName of modelCandidates) {
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${encodeURIComponent(FIXED_API_KEY)}`;
+
+                    try {
+                        response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (response.ok) break;
+
+                        const errData = await response.json().catch(() => ({}));
+                        lastErrorMsg = errData.error?.message || `HTTP ${response.status}`;
+                    } catch (networkErr) {
+                        lastErrorMsg = networkErr.message;
+                    }
+                }
+
+                if (!response || !response.ok) {
+                    throw new Error(`API 호출 실패: ${lastErrorMsg}`);
+                }
+
+                const result = await response.json();
+                const parts = result?.candidates?.[0]?.content?.parts || [];
+                const text = parts
+                    .filter(p => !p.thought && p.text)
+                    .map(p => p.text)
+                    .join('');
+
+                if (!text) {
+                    throw new Error('사진에서 결과를 생성하지 못했습니다. 글자가 잘 보이는 사진으로 다시 시도해주세요.');
+                }
+
+                resultTextarea.value = text.trim();
+                chatTimeText.textContent = getFormattedCurrentTime();
+                resultSection.classList.remove('hidden');
+                autoResizeTextarea();
+                resultSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                showToast('카카오톡 Q.T 나눔 정리가 완료되었습니다!');
+            } catch (error) {
+                showToast(error.message || '분석 중 오류가 발생했습니다.', 'error');
+            } finally {
+                loadingIndicator.classList.add('hidden');
+                analyzeBtn.disabled = false;
+            }
         }
 
-        const outputText =
-          data.candidates?.[0]?.content?.parts?.map((p) => p.text).join("") ||
-          "결과를 생성하지 못했습니다.";
+        analyzeBtn.addEventListener('click', analyzeAndFormatQT);
+        regenerateBtn.addEventListener('click', analyzeAndFormatQT);
 
-        resultBubble.innerText = outputText.trim();
-        resultSection.style.display = "flex";
-        resultSection.scrollIntoView({ behavior: "smooth" });
-      } catch (err) {
-        alert("정리 중 오류가 발생했습니다: " + err.message);
-      } finally {
-        statusText.style.display = "none";
-        analyzeBtn.disabled = false;
-      }
-    });
+        // 4. 클립보드 복사
+        copyBtn.addEventListener('click', () => {
+            const textToCopy = resultTextarea.value;
+            if (!textToCopy) return;
 
-    copyBtn.addEventListener("click", async () => {
-      const text = resultBubble.innerText;
-      try {
-        await navigator.clipboard.writeText(text);
-        const originalText = copyBtn.innerText;
-        copyBtn.innerText = "✅ 복사 완료! 카톡에 붙여넣으세요";
-        setTimeout(() => {
-          copyBtn.innerText = originalText;
-        }, 2000);
-      } catch (e) {
-        const textarea = document.createElement("textarea");
-        textarea.value = text;
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand("copy");
-        document.body.removeChild(textarea);
-        alert("클립보드에 복사되었습니다.");
-      }
-    });
-  </script>
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = textToCopy;
+            tempTextarea.style.position = 'fixed';
+            tempTextarea.style.left = '-9999px';
+            document.body.appendChild(tempTextarea);
+            tempTextarea.focus();
+            tempTextarea.select();
+
+            try {
+                const copied = document.execCommand('copy');
+                if (copied) {
+                    showToast('클립보드에 복사되었습니다! 카카오톡에 바로 붙여넣으세요.');
+                } else if (navigator.clipboard) {
+                    navigator.clipboard.writeText(textToCopy).then(() => {
+                        showToast('클립보드에 복사되었습니다! 카카오톡에 바로 붙여넣으세요.');
+                    });
+                }
+            } catch (err) {
+                showToast('복사 중 오류가 발생했습니다. 말풍선을 직접 선택해 복사해주세요.', 'error');
+            } finally {
+                document.body.removeChild(tempTextarea);
+            }
+        });
+
+        // 토스트 메시지 표시 함수
+        let toastTimer = null;
+        function showToast(message, type = 'success') {
+            const toastMessage = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+
+            toastMessage.textContent = message;
+            toastIcon.textContent = type === 'success' ? '✅' : '⚠️';
+
+            toast.classList.remove('opacity-0', 'pointer-events-none');
+            toast.classList.add('opacity-100');
+
+            if (toastTimer) clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.remove('opacity-100');
+                toast.classList.add('opacity-0', 'pointer-events-none');
+            }, 3000);
+        }
+    </script>
 </body>
 </html>
