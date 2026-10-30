@@ -545,39 +545,49 @@ ${headerTitle}
                 }
             };
 
+            // 넉넉한 500회 Lite 모델을 1, 2순위로 배치
             const modelCandidates = [
-            'gemini-3.1-flash-lite',   // [1순위] 속도 초고속
-            'gemini-3.5-flash-lite',   // [2순위] 속도 초고속
-            'gemini-3.6-flash',        // [3순위] 
-            'gemini-3.8-flash',        // [4순위]
-            'gemini-3-flash'           // [5순위] 
+                'gemini-3.1-flash-lite',
+                'gemini-3.5-flash-lite',
+                'gemini-3.6-flash',
+                'gemini-3.8-flash',
+                'gemini-3-flash'
             ];
 
             try {
                 let response = null;
                 let lastErrorMsg = '';
 
+                // 사용 가능한 모델을 순서대로 자동 탐색
                 for (const modelName of modelCandidates) {
                     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${encodeURIComponent(FIXED_API_KEY)}`;
-
+                    
                     try {
-                        response = await fetch(apiUrl, {
+                        const res = await fetch(apiUrl, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify(payload)
                         });
 
-                        if (response.ok) break;
+                        // 1. 성공(200 OK)이면 바로 채택하고 루프 종료
+                        if (res.ok) {
+                            response = res;
+                            break;
+                        }
 
-                        const errData = await response.json().catch(() => ({}));
-                        lastErrorMsg = errData.error?.message || `HTTP ${response.status}`;
-                    } catch (networkErr) {
-                        lastErrorMsg = networkErr.message;
+                        // 2. 한도 초과(429) 또는 서버 과부하(503)인 경우 에러를 띄우지 않고 '다음 모델'로 바로 전환
+                        const errJson = await res.json().catch(() => ({}));
+                        lastErrorMsg = errJson.error?.message || `HTTP ${res.status}`;
+                        console.warn(`[모델 전환 안내] ${modelName} 사용 불가 (${res.status}): 다음 모델로 자동 전환합니다.`);
+
+                    } catch (netErr) {
+                        lastErrorMsg = netErr.message;
+                        console.warn(`[네트워크 에러] ${modelName} 실패: 다음 모델 시도 중...`);
                     }
                 }
 
                 if (!response || !response.ok) {
-                    throw new Error(`API 호출 실패: ${lastErrorMsg}`);
+                    throw new Error(`모든 모델의 일일 한도가 소진되었습니다. 잠시 후 다시 시도해 주세요. (${lastErrorMsg})`);
                 }
 
                 const result = await response.json();
